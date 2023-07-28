@@ -107,7 +107,7 @@ const updateAvatar = (req, res) => {
       throw new NotFound();
     })
     .then((user) => {
-      res.status(STATUS_CODE.success).send( {data: user} );
+      res.status(STATUS_CODE.success).send({ data: user });
     })
     .catch((err) => {
       if (err.name === 'NotFound') {
