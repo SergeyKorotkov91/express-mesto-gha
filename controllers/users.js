@@ -1,9 +1,9 @@
-const User = require('../models/users');
-const NotFoundError = require('../errors/notFoundError');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
-const AuthError = require('../erorrs/authError');
-const DuplicationError = require('../erorrs/dataDuplication');
+const User = require('../models/users');
+const NotFoundError = require('../errors/notFoundErrors');
+const AuthError = require('../errors/authError');
+const DuplicationError = require('../errors/dataDuplication');
 
 const JWT_SECRET = 'strong-secret-key';
 
