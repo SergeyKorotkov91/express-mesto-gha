@@ -13,7 +13,7 @@ const createCard = (req, res, next) => {
 
 const getCards = (req, res, next) => {
   Card.find({})
-    .then((card) => res.send({ data: card }))
+    .then((card) => res.status(201).send({ data: card }))
     .catch(next);
 };
 
@@ -27,7 +27,7 @@ const deleteCard = (req, res, next) => {
       } else if (card.owner.toString() === id) {
         Card.deleteOne(card)
           .then((data) => {
-            res.send({ data, message: 'Удалено' });
+            res.status(201).send({ data, message: 'Удалено' });
           })
           .catch(next);
       } else {
