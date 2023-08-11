@@ -4,7 +4,7 @@ const auth = require('../middlewares/auth');
 const usersRouter = require('./users');
 const cardsRouter = require('./cards');
 const { createUser, login } = require('../controllers/users');
-const NotFoundError = require('../errors/notFoundError');
+const NotFoundError = require('../errors/notFoundErrors');
 
 const regularExpression = /^(https?:\/\/)(www\.)?[-a-zA-Z0-9._~:/?#[\]@!$&'()*+,;=]+\.[-a-zA-Z0-9._~:/?#[\]@!$&'()*+,;=]+#?$/;
 
@@ -22,7 +22,7 @@ router.post('/signup', celebrate({
     avatar: Joi.string().regex(regularExpression),
     email: Joi.string().required().email(),
     password: Joi.string().required().min(8),
-    }).unknown(true),
+  }).unknown(true),
 }), createUser);
 
 router.use(auth);
