@@ -65,7 +65,7 @@ const getUser = (req, res, next) => {
   const { id } = req.user;
   User.findById(id)
     .then((user) => {
-      res.status(201).send(user);
+      res.send(user);
     })
     .catch(next);
 };
@@ -83,7 +83,7 @@ const returnUserById = (req, res, next) => {
       if (!user) {
         throw new NotFoundError('Нет пользователя с таким id');
       }
-      res.status(201).send(user);
+      res.send(user);
     })
     .catch(next);
 };
@@ -97,7 +97,7 @@ const updateProfile = (req, res, next) => {
       if (!user) {
         throw new NotFoundError('Нет пользователя с таким id');
       }
-      res.status(201).send({ data: { name, about } });
+      res.send({ data: { name, about } });
     })
     .catch(next);
 };
