@@ -7,13 +7,13 @@ const createCard = (req, res, next) => {
   const { name, link } = req.body;
   const owner = req.user.id;
   Card.create({ name, link, owner })
-    .then((card) => res.status(201).send({ data: card }))
+    .then((card) => res.send({ data: card }))
     .catch(next);
 };
 
 const getCards = (req, res, next) => {
   Card.find({})
-    .then((card) => res.status(201).send({ data: card }))
+    .then((card) => res.send({ data: card }))
     .catch(next);
 };
 
@@ -27,7 +27,7 @@ const deleteCard = (req, res, next) => {
       } else if (card.owner.toString() === id) {
         Card.deleteOne(card)
           .then((data) => {
-            res.status(201).send({ data, message: 'Удалено' });
+            res.send({ data, message: 'Удалено' });
           })
           .catch(next);
       } else {
@@ -46,7 +46,7 @@ const likeCard = (req, res, next) => {
   )
     .orFail(new Error('NotValidId'))
     .then((card) => {
-      res.status(201).send({ data: card });
+      res.send({ data: card });
     })
     .catch((err) => {
       if (err.message === 'NotValidId') {
@@ -66,7 +66,7 @@ const dislikeCard = (req, res, next) => {
   )
     .orFail(new Error('NotValidId'))
     .then((card) => {
-      res.status(201).send({ data: card });
+      res.send({ data: card });
     })
     .catch((err) => {
       if (err.message === 'NotValidId') {
