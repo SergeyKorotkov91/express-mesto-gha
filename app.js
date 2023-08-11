@@ -1,29 +1,36 @@
-const mongoose = require('mongoose');
 const express = require('express');
-const userRouter = require('./routes/users');
-const cardRouter = require('./routes/cards');
-const STATUS_CODE = require('./errors/errorCodes');
-
-const app = express();
+const mongoose = require('mongoose');
+const { errors } = require('celebrate');
+const cookieParser = require('cookie-parser');
+const helmet = require('helmet');
+const rateLimit = require('express-rate-limit');
+const routes = require('./routes/index');
+const error = require('./middlewares/error');
 
 const { PORT = 3000 } = process.env;
 
-app.use((req, res, next) => {
-  req.user = {
-    _id: '84bc68f10e16c7c7b9f41183',
-  };
-
-  next();
-});
+const app = express();
 app.use(express.json());
 
-mongoose.connect('mongodb://127.0.0.1:27017/mestodb');
+app.use(helmet());
 
-app.use('/', userRouter);
-app.use('/', cardRouter);
-app.use('*', (req, res) => {
-  res.status(STATUS_CODE.notFound).send({
-    message: 'Страница не найдена',
-  });
+mongoose.connect('mongodb://127.0.0.1:27017/mestodb', {
+  useNewUrlParser: true,
 });
+
+const limiter = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  max: 100,
+});
+
+app.use(limiter);
+
+app.use(cookieParser());
+
+app.use('/', routes);
+
+app.use(errors());
+
+app.use(error);
+
 app.listen(PORT);
